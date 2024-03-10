@@ -1,5 +1,5 @@
 # Tray Yeeter (C#)
-A C# tool to yeet your windows. (Failed attempt, gotta rework later)
+A C# tool to yeet your windows.
 
 ## Installation
 1. Download the [latest release build](https://github.com/Neurs12/tray_yeeter_sharp/releases/).
