@@ -10,7 +10,7 @@ A C# tool to yeet your windows.
 > [!NOTE]
 > To see all available keys, go to [akeys.txt](https://github.com/Neurs12/tray_yeeter_sharp/blob/master/akeys.txt).
 
-- Global hotkeys can't assign to critical hotkeys (Example: `ctrl + alt + del`, `alt + f4`, `win + e`,...)
+- Hotkeys can't assign to critical hotkeys (Example: `ctrl + alt + del`, `alt + f4`, `win + e`,...)
 - All keys are from [virutal key codes](https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes).
 - To edit a hotkey, open `config.json` in the same folder with `Tray Yeeter.exe`. It look something like this:
 ```json
