@@ -9,6 +9,13 @@ namespace tray_yeeter_sharp
         /// </summary>
         static void Main()
         {
+            bool checkProcess = Process.GetProcessesByName(Path.GetFileNameWithoutExtension(System.Reflection.Assembly.GetEntryAssembly()!.Location)).Length > 1;
+
+            if (checkProcess)
+            {
+                return;
+            }
+
             ApplicationConfiguration.Initialize();
             Application.Run(new Yeeter());
         }
