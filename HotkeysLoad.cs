@@ -11,21 +11,21 @@ namespace tray_yeeter_sharp
         private static readonly List<IntPtr> yeetedWindows = [];
         private static readonly List<IntPtr> enumWindowsResult = [];
 
-        private static readonly List<int> modifierKeys = [
-            (int)VirtualKey.LeftControl,
-            (int)VirtualKey.RightControl,
-            (int)VirtualKey.Control,
-            (int)VirtualKey.LeftShift,
-            (int)VirtualKey.RightShift,
-            (int)VirtualKey.Shift,
-            (int)VirtualKey.LeftMenu,
-            (int)VirtualKey.RightMenu,
-            (int)VirtualKey.Menu,
-            (int)VirtualKey.LeftWindows,
-            (int)VirtualKey.RightWindows];
+        private static readonly List<VirtualKey> modifierKeys = [
+            VirtualKey.LeftControl,
+            VirtualKey.RightControl,
+            VirtualKey.Control,
+            VirtualKey.LeftShift,
+            VirtualKey.RightShift,
+            VirtualKey.Shift,
+            VirtualKey.LeftMenu,
+            VirtualKey.RightMenu,
+            VirtualKey.Menu,
+            VirtualKey.LeftWindows,
+            VirtualKey.RightWindows];
 
-        private static readonly HashSet<int> currentKeys = [];
-        private static readonly List<int> assignedHotkeys = [];
+        private static readonly SortedSet<VirtualKey> currentKeys = [];
+        private static readonly List<SortedSet<VirtualKey>> assignedHotkeys = [];
         private static HotkeyEvent pointedEvent = delegate { };
 
         public delegate void HotkeyEvent(int Id);
@@ -39,9 +39,9 @@ namespace tray_yeeter_sharp
             KeyboardHookHandler.SetupHook(DownKeyEvent, UpKeyEvent);
         }
 
-        private static bool DownKeyEvent(int key)
+        private static bool DownKeyEvent(VirtualKey key)
         {
-            int index = assignedHotkeys.IndexOf(key);
+            int index = assignedHotkeys.FindIndex(set => set.SetEquals([key]));
             if (index != -1 && !currentKeys.Intersect(modifierKeys).Any())
             {
                 pointedEvent(index);
@@ -49,9 +49,7 @@ namespace tray_yeeter_sharp
             }
 
             currentKeys.Add(key);
-
-            int combined = currentKeys.Sum();
-            index = assignedHotkeys.IndexOf(combined);
+            index = assignedHotkeys.FindIndex(set => set.SetEquals(currentKeys));
 
             if (index != -1)
             {
@@ -62,7 +60,7 @@ namespace tray_yeeter_sharp
             return false;
         }
 
-        private static bool UpKeyEvent(int key)
+        private static bool UpKeyEvent(VirtualKey key)
         {
             currentKeys.Remove(key);
             return false;
@@ -140,10 +138,10 @@ namespace tray_yeeter_sharp
         }
         private static void InitHotkey(string name, JObject config)
         {
-            int hotkey = 0;
+            SortedSet<VirtualKey> hotkey = [];
             foreach (string? key in config[name]!.Select(v => (string?)v))
             {
-                hotkey += (int)Enum.Parse<VirtualKey>(key!);
+                hotkey.Add(Enum.Parse<VirtualKey>(key!));
             }
 
             assignedHotkeys.Add(hotkey);

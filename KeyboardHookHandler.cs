@@ -33,7 +33,7 @@ namespace tray_yeeter_sharp
             UnhookWindowsHookEx(_hookID);
         }
 
-        public delegate bool KeyCallbackEvent(int key);
+        public delegate bool KeyCallbackEvent(VirtualKey key);
 
         public delegate IntPtr LowLevelKeyboardProc(
         int nCode, IntPtr wParam, IntPtr lParam);
@@ -47,11 +47,11 @@ namespace tray_yeeter_sharp
             {
                 if (wParam == WM_KEYDOWN)
                 {
-                    res = keydownEvent(Marshal.ReadInt32(lParam));
+                    res = keydownEvent((VirtualKey)Marshal.ReadInt32(lParam));
                 }
                 if (wParam == WM_KEYUP)
                 {
-                    res = keyupEvent(Marshal.ReadInt32(lParam));
+                    res = keyupEvent((VirtualKey)Marshal.ReadInt32(lParam));
                 }
             }
             return res ? 1 : CallNextHookEx(_hookID, nCode, wParam, lParam);
