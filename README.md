@@ -1,5 +1,5 @@
 # Tray Yeeter (C#)
-A C# tool to yeet your windows.
+A C# tool to yeet your windows. In other words, a thingy to hide your windows, minimize them to tray.
 
 ## Installation
 1. Download the [latest release build](https://github.com/Neurs12/tray_yeeter_sharp/releases/).
