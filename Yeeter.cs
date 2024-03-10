@@ -47,10 +47,7 @@ namespace tray_yeeter_sharp
                     return;
                 }
             }
-            new ToastContentBuilder()
-                 .AddText("Tray Yeeter has stopped ╯︿╰")
-                 .Show();
-            Environment.Exit(0);
+            Application.Exit();
         }
 
         private static void HotkeyEvent(int Id)
