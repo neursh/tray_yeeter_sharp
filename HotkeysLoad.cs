@@ -32,6 +32,7 @@ namespace tray_yeeter_sharp
 
         public static void RegisterHotkeys(HotkeyEvent hotkeyEvent)
         {
+            assignedHotkeys.Clear();
             pointedEvent = hotkeyEvent;
             KeyboardHookHandler.RemoveHook();
             ConfigParse();
