@@ -41,4 +41,4 @@ A C# tool to yeet your windows. In other words, a thingy to hide your windows, m
 3. Put the shortcut to `Startup` folder.
 
 ## Debug
-Run the process in a terminal environment.
+Clone the project.
