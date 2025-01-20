@@ -1,4 +1,5 @@
 ﻿using Microsoft.Toolkit.Uwp.Notifications;
+using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.InteropServices;
 using static tray_yeeter_sharp.HotkeysLoad;
@@ -18,6 +19,7 @@ namespace tray_yeeter_sharp
             notifyIcon1.ContextMenuStrip = new ContextMenuStrip();
             notifyIcon1.ContextMenuStrip.Items.Add("Reload", null, ReloadEvent);
             notifyIcon1.ContextMenuStrip.Items.Add("Quit", null, QuitEvent);
+            notifyIcon1.ContextMenuStrip.Items.Add("Quit all", null, QuitAll);
             RegisterHotkeys(HotkeyEvent);
         }
 
@@ -45,6 +47,23 @@ namespace tray_yeeter_sharp
                 if (result == DialogResult.Cancel)
                 {
                     return;
+                }
+            }
+            Application.Exit();
+        }
+
+        private static void QuitAll(object? sender, EventArgs e)
+        {
+            if (yeetedWindows.Count > 0) {
+                foreach (IntPtr hWnd in yeetedWindows)
+                {
+                    try {
+                        GetWindowThreadProcessId(hWnd, out uint processId);
+                        if (processId == 0) continue;
+
+                        Process process = Process.GetProcessById((int)processId);
+                        process.Kill();
+                    } catch { }
                 }
             }
             Application.Exit();
@@ -98,14 +117,17 @@ namespace tray_yeeter_sharp
             return true;
         }
 
-        private static List<IntPtr> yeetedWindows = [];
-        private static List<IntPtr> enumWindowsResult = [];
+        private static readonly List<IntPtr> yeetedWindows = [];
+        private static readonly List<IntPtr> enumWindowsResult = [];
 
         const int SW_HIDE = 0;
         const int SW_SHOW = 5;
 
         [LibraryImport("user32.dll")]
         private static partial IntPtr GetForegroundWindow();
+
+        [LibraryImport("user32.dll")]
+        private static partial uint GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
 
         [LibraryImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]

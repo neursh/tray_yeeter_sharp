@@ -8,9 +8,6 @@ namespace tray_yeeter_sharp
 {
     internal partial class HotkeysLoad
     {
-        private static readonly List<IntPtr> yeetedWindows = [];
-        private static readonly List<IntPtr> enumWindowsResult = [];
-
         private static readonly List<VirtualKey> modifierKeys = [
             VirtualKey.LeftControl,
             VirtualKey.RightControl,
